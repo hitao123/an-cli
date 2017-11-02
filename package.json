@@ -1,0 +1,36 @@
+{
+  "name": "an-cli",
+  "version": "1.0.0",
+  "description": " an cli tool for quick create catalog ",
+  "main": "index.js",
+  "bin": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hitao123/an-cli.git"
+  },
+  "keywords": [
+    "cli"
+  ],
+  "author": "huahaitao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hitao123/an-cli/issues"
+  },
+  "homepage": "https://github.com/hitao123/an-cli#readme",
+  "devDependencies": {
+    "bluebird": "^3.5.1",
+    "chalk": "^2.1.0",
+    "commander": "^2.11.0",
+    "cross-spawn": "^5.1.0",
+    "fs-extra": "^4.0.2",
+    "hyperquest": "^2.1.2",
+    "inquirer": "^3.3.0",
+    "semver": "^5.4.1",
+    "tar-pack": "^3.4.1",
+    "tmp": "0.0.33",
+    "validate-npm-package-name": "^3.0.0"
+  }
+}
