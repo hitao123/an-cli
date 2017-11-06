@@ -9,7 +9,7 @@ const autoprefixer = require("autoprefixer");
 // replace localhost with 0.0.0.0 if you want to access
 // your app from wifi or a virtual machine
 const host = process.env.HOST || "localhost";
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 const sourcePath = path.join(__dirname);
 const buildPath = path.resolve(path.join(__dirname, "dist"));
 
