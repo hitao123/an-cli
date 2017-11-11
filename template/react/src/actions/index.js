@@ -1,4 +1,4 @@
-import fetch from 'whatwg-fetch';
+import 'whatwg-fetch';
 import * as types from '../constants/ActionTypes';
 
 
@@ -32,12 +32,11 @@ export function fetchTopic(page=1, tab='share', limit=10, mdrender=true) {
 	return (dispatch, getState) => {
     dispatch(requestIssue(page, tab, limit, mdrender));
     let fetchUrl = `${url}?tab=${tab}&page=${page}&limit=${limit}&mdrender=${mdrender}`;
-		return fetch(fetchUrl)
+    return fetch(fetchUrl)
+    // es6 写法 response => { return response.json()} 或者 response => response.json() 这两者写法是有区别的
 		.then(response => response.json())
 		.then((res) => {
-      if(res.success == 'true') {
-        dispatch(receiveIssue(json.data))
-      }
+      dispatch(receiveIssue(res.data))
     })
 		.catch(err => {
       console.error(err);
