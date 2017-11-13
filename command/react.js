@@ -10,8 +10,11 @@ const appPath = path.join(__dirname, '../template/react');
 
 module.exports = function(name) {
   // npm start 启动项目
-  util.createAppTemplate(name, '../template/react', 'react-package.json');
-  console.log("使用 npm start 启动你的项目");
-  console.log();
+  util.createAppTemplate(name, '../template/react', 'react-package.json', function() {
+    console.log();
+    console.log("使用 npm start 启动你的项目");
+    console.log();
+  });
+
 }
 
