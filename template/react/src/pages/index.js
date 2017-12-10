@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchTopic } from '../../../actions';
+import { fetchTopic } from '../actions';
 
 class App extends React.Component {
   constructor(props) {
