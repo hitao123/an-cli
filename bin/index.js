@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 const commander = require("commander");
 const chalk = require("chalk");
 const figlet = require("figlet");
@@ -8,15 +9,6 @@ const utils = require("../lib/utils");
 let projectName;
 const program = new commander.Command(packageJson.name)
   .version(packageJson.version)
-  // .usage("[options] <project name>")
-  // .option("v, vue", "init vue spa project")
-  // .option("r, react", "init react spa project")
-  // .option("vs, vuessr", "init vue ssr project")
-  // .option("rs, reactssr", "init react ssr project")
-  // .option("need, needRequire", "是否需要按需加载")
-  // .action(name => {
-  //   projectName = name;
-  // })
 
 
 program
@@ -54,7 +46,7 @@ program
 program
   .command('ver')
   .action(() => {
-    utils.clear();
+    // utils.clear();
     console.log(chalk.yellow(figlet.textSync('AN CLI', {horizontalLayout: 'full'})));
   });
 
