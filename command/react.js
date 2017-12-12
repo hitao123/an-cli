@@ -5,12 +5,12 @@ const util = require('../lib/utils');
 
 
 
-const appPackage = require('../config/react-package.json');
-const appPath = path.join(__dirname, '../template/react');
+const appPackageName = 'react-package.json';
+const templatePath = path.join(__dirname, '../template/react');
 
 module.exports = function(name) {
   // npm start 启动项目
-  util.createAppTemplate(name, '../template/react', 'react-package.json', function() {
+  util.createAppTemplate(name, templatePath, appPackageName, function() {
     console.log();
     console.log("使用 npm start 启动你的项目");
     console.log();

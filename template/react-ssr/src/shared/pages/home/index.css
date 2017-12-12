@@ -1,0 +1,46 @@
+.home {
+  width: 1000px;
+  margin: 0 auto;
+  font-family: "Avenir Light", Helvetica, Arial, sans-serif;
+  background-color: #f6f6ef;
+}
+
+.home::after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+.selected {
+  font-weight: bold;
+}
+
+header {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+}
+
+aside {
+  display: block;
+  text-align: left;
+  width: 120px;
+  padding-left: 20px;
+  color: #999;
+}
+aside p {
+  padding: 0;
+}
+article {
+  float: left;
+  padding: 0 0 0 52px;
+  width: 400px;
+}
+
+figure {
+  float: right;
+  width: 400px;
+  height: 400px;
+  background-size: cover;
+  background: url('./wizards.jpg');
+}
