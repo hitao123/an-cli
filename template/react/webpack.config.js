@@ -48,7 +48,7 @@ module.exports = function() {
     }),
     // create index.html
     new HtmlWebpackPlugin({
-      template: "./src/web/h5/index.html",
+      template: "./src/index.html",
       filename: "index.html",
       inject: true,
       production: isProd,
@@ -95,7 +95,7 @@ module.exports = function() {
   }
 
   const entryPoint = isProd
-    ? "./src/web/h5/index.js"
+    ? "./src/index.js"
     : [
         // bundle the client for webpack-dev-server
         // and connect to the provided endpoint
@@ -104,7 +104,7 @@ module.exports = function() {
         // only- means to only hot reload for successful updates
         "webpack/hot/only-dev-server",
         // the entry point of our app
-        "./src/web/h5/index.js"
+        "./src/index.js"
       ];
 
   return {
