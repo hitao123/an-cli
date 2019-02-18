@@ -1,0 +1,114 @@
+#!/usr/bin/env node
+
+const home = require('os').homedir();
+const exists = require('fs-extra').existsSync;
+const path = require('path');
+const program = require('commander');
+const chalk = require('chalk');
+const inquirer = require('inquirer');
+const ora = require('ora');
+const download = require('download-git-repo');
+const generate = require('../lib/generate')
+/**
+ * Usage.
+ */
+
+program
+  .usage("<template-name> [project-name]")
+  .option("-c, --clone", "use git clone")
+  .option("--offline", "use cached template");
+
+/**
+ * Help.
+ */
+
+program.on("--help", () => {
+  console.log("  Examples:");
+  console.log();
+  console.log(
+    chalk.gray("    # create a new project with an official template")
+  );
+  console.log("    $ an init vue my-project");
+  console.log();
+  console.log(
+    chalk.gray("    # create a new project straight from a github template")
+  );
+  console.log("    $ an init username/repo my-project");
+  console.log();
+});
+
+/**
+ * Help.
+ */
+
+function help() {
+  program.parse(process.argv);
+  if (program.args.length < 1) return program.help();
+}
+help();
+
+/**
+ * 解析参数
+ */
+let template = program.args[0];
+const hasSlash = template.indexOf("/") > -1;
+const rawName = program.args[1];
+const inPlace = !rawName || rawName === '.'
+const name = inPlace ? path.relative('../', process.cwd()) : rawName
+const to = path.resolve(rawName || '.')
+const tmp = path.join(home, '.an-templates')
+
+/**
+ * 空格
+ */
+
+console.log();
+process.on("exit", () => {
+  console.log();
+});
+
+/**
+ * 下载模板并生成文件在本地
+ * @param template
+ */
+function downloadAndGenerate(template) {
+  const spinner = ora('downloading template')
+  spinner.start()
+  if (exists(tmp)) rm(tmp)
+  download(template, tmp, { clone: false }, err => {
+    spinner.stop();
+    if (err) console.error('Failed to download repo')
+    generate();
+  })
+}
+
+/**
+ * 下载并生成文件
+ */
+function run() {
+  if (!hasSlash) {
+    const officialTemplate = 'rvs-template/' + template
+    downloadAndGenerate(officialTemplate)
+  } else {
+    downloadAndGenerate(template)
+  }
+}
+
+inquirer
+  .prompt([
+    {
+      type: "confirm",
+      message: inPlace
+        ? "Generate project in current directory?"
+        : "Target directory exists. Continue?",
+      name: "ok"
+    }
+  ])
+  .then(answers => {
+    if (answers.ok) {
+      run();
+    }
+  })
+  .catch((err) => {
+    console.error(chalk.red(`${err}`))
+  });

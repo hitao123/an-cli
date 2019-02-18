@@ -1,2 +1,0 @@
-export const REQUEST_TOPIC = 'REQUEST_TOPIC';
-export const RECEIVE_TOPIC = 'RECEIVE_TOPIC';

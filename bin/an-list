@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const chalk = require('chalk');
+/**
+ * Usage.
+ */
+
+program
+  .usage('<template-name> [project-name]')
+  .option('-l, --list', 'list')
+
+/**
+ * Help.
+ */
+
+program.on('--help', () => {
+  console.log('  Examples:')
+  console.log()
+  console.log(chalk.gray('    # create a new project with an official template'))
+  console.log('    $ an init webpack my-project')
+  console.log()
+  console.log(chalk.gray('    # create a new project straight from a github template'))
+  console.log('    $ an init username/repo my-project')
+  console.log()
+})
+
+/**
+ * Help.
+ */
+
+function help () {
+  program.parse(process.argv)
+  if (program.args.length < 1) return program.help()
+}
+help()
