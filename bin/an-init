@@ -6,9 +6,11 @@ const path = require('path');
 const program = require('commander');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
+const rm = require('rimraf').sync
 const ora = require('ora');
 const download = require('download-git-repo');
 const generate = require('../lib/generate')
+const logger = require('../lib/logger')
 /**
  * Usage.
  */
@@ -26,12 +28,12 @@ program.on("--help", () => {
   console.log("  Examples:");
   console.log();
   console.log(
-    chalk.gray("    # create a new project with an official template")
+    chalk.gray("    # create a new project with template")
   );
   console.log("    $ an init vue my-project");
   console.log();
   console.log(
-    chalk.gray("    # create a new project straight from a github template")
+    chalk.gray("    # create a new project straight from a github/gitlab template")
   );
   console.log("    $ an init username/repo my-project");
   console.log();
@@ -50,13 +52,13 @@ help();
 /**
  * 解析参数
  */
-let template = program.args[0];
-const hasSlash = template.indexOf("/") > -1;
-const rawName = program.args[1];
-const inPlace = !rawName || rawName === '.'
-const name = inPlace ? path.relative('../', process.cwd()) : rawName
-const to = path.resolve(rawName || '.')
-const tmp = path.join(home, '.an-templates')
+let template = program.args[0]; // an init vue
+const hasSlash = template.indexOf("/") > -1; // an vue username/repo
+const rawName = program.args[1]; // project name
+const inPlace = !rawName || rawName === '.' // project name is not provide
+const name = inPlace ? path.relative('../', process.cwd()) : rawName // project name
+const to = path.resolve(rawName || '.') // current path
+const tmp = path.join(home, '.an-templates') // home cache dir
 
 /**
  * 空格
@@ -78,7 +80,11 @@ function downloadAndGenerate(template) {
   download(template, tmp, { clone: false }, err => {
     spinner.stop();
     if (err) console.error('Failed to download repo')
-    generate();
+    generate(name, tmp, to, err => {
+      if (err) logger.fatal(err)
+      console.log()
+      logger.success('Generated "%s".', name)
+    })
   })
 }
 
@@ -94,21 +100,27 @@ function run() {
   }
 }
 
-inquirer
-  .prompt([
-    {
-      type: "confirm",
-      message: inPlace
-        ? "Generate project in current directory?"
-        : "Target directory exists. Continue?",
-      name: "ok"
-    }
-  ])
-  .then(answers => {
-    if (answers.ok) {
-      run();
-    }
-  })
-  .catch((err) => {
-    console.error(chalk.red(`${err}`))
-  });
+
+if (inPlace || exists(to)) {
+  inquirer
+    .prompt([
+      {
+        type: "confirm",
+        message: inPlace
+          ? "Generate project in current directory?"
+          : "Target directory exists. Continue?",
+        name: "ok"
+      }
+    ])
+    .then(answers => {
+      if (answers.ok) {
+        run();
+      }
+    })
+    .catch((err) => {
+      console.error(chalk.red(`${err}`))
+    });
+} else {
+  run()
+}
+

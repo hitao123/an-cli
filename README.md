@@ -63,7 +63,6 @@
 
   - `completeMessage`: 用来展示当模板已经生成以后， 消息展示
 
-  - `complete`: Instead of using `completeMessage`, you can use a function to run stuffs when the template has been generated.
 ```
 
 ### prompts
@@ -118,3 +117,7 @@
 ### metalsmith
 
 `an-cli` 使用 [metalsmith](https://github.com/segmentio/metalsmith) 来生成项目
+
+## 实现原理
+
+1. 通过下载模板， 通过 Handlebars 处理模板中逻辑之后 通过 metalsmith 在指定目录生成目录结构
